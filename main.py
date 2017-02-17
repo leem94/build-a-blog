@@ -3,6 +3,7 @@ import os
 import webapp2
 import jinja2
 import time
+#import logging
 
 from google.appengine.ext import db
 
@@ -56,7 +57,7 @@ class Newpost(Handler):  #new post page
         self.render_newpostform()
 
     def post(self):
-        title = self.request.get("title")
+        title = self.request.get("title")  #creating variables
         content = self.request.get("content")
 
         if title and content:  #creates a new instance of Content, called a
@@ -71,16 +72,28 @@ class Newpost(Handler):  #new post page
             self.render_newpostform(title, content, error) #pass in from line 23-24
 
 
-
-
-class ViewPostHandler(webapp2.RequestHandler): #what's the purpose of this class?
+class ViewPostHandler(webapp2.RequestHandler):  #what's the purpose of this class?
     def get(self, id):
-        blog_id= Entry.get_by_id(int(id))
-        if blog_id.title == False: #if blog_id not in Entry():
+        blog_id = Entry.get_by_id(int(id)) #get_by_id of user input, query of database, find it by id
+        # logging.info("test")
+        # logging.info(title)
+        if blog_id == None: #find blog_id; if not there, return error
             error = "No post associated with id."
             self.response.write(error)
-        self.response.write(blog_id.title)
-        self.response.write(blog_id.content)
+        else:
+            self.response.write(blog_id.title)
+            self.response.write("<html><body><br><br></body></html>")
+            self.response.write(blog_id.content)
+
+    #add something with blog_id
+    # def single_new_post(self, title="",content=""):
+    #     self.render("single_new_post.html", title=title, content=content)
+    #     self.single_new_post()
+    #
+    # def post(self):
+    #     title = self.request.get("title")
+    #     content = self.request.get("content")
+    #     self.response.write(title, content)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler), #redirects to mainpage

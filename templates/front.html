@@ -2,11 +2,16 @@
 
 {% block content %}
 <form action="blog" method="post">
+
     {% for content in contents %} <!--for loop for content title & content -->
         <div><a href = "/blog/{{content.key().id()}}">{{content.title}}</a></div>
-        <div class="diary-entry">{{content.content}}</div>
+        <div class="content">{{content.content}}</div>
         <br>
         <br>
    {% endfor %} <!-- end for loop -->
+
 </form>
 {% endblock %}
+
+
+
